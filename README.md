@@ -8,19 +8,18 @@ This module has been used in several projects to store and manipulate data in au
 
 # Examples
 
-## initializing the module
+## Initializing the module
 ```PowerShell
 $storage = "addYourStorageNameHere"
 $key = "addYourStorageSecretKeyHere"
 
 Import-Module AZTableModule.psm1 -ArgumentList $storage, $key
 ```
-## creating a new table**
+## Creating a new table
 ```PowerShell
 New-AzTable "sampletable"
 ```
-## add a new entry to your table
-
+## Add a new entry to your table
 - Dates must be older or equal than "1901-01-01"
 - Replaces the entry if the unique key and partitionkey matches
 ```PowerShell
@@ -35,7 +34,7 @@ $patrick = @{
 }
 Add-AzTableEntry -table "sampletable" -partitionKey $patrick.PartitionKey -rowKey $patrick.RowKey -entity $patrick
 ```
-## create a new entry or merge it with an existing one
+## Create a new entry or merge it with an existing one
 ```PowerShell
 $birthDate = (Get-date -date "1986-10-19")
 $rene = @{<br />
@@ -48,37 +47,37 @@ $rene = @{<br />
 }
 Merge-AzTableEntry -table "sampletable" -partitionKey $rene.PartitionKey -rowKey $rene.RowKey -entity $rene
 ```
-## return a single entry
+## Return a single entry
 ```PowerShell
 $patrickFromTheCloud = Get-AzTableEntry -table "sampletable" -partitionKey $patrick.PartitionKey -rowKey $patrick.RowKey
 ```
-## update an individual field of an existing entry
+## Update an individual field of an existing entry
 ```PowerShell
 $patrickFromTheCloud = Get-AzTableEntry -table "sampletable" -partitionKey $patrick.PartitionKey -rowKey $patrick.RowKey
 $patrickFromTheCloud.name = "Patrick has been updated"
 Merge-AzTableEntry -table "sampletable" -partitionKey $patrickFromTheCloud.PartitionKey -rowKey $patrickFromTheCloud.RowKey -entity $patrickFromTheCloud
 ```
-## get all entries
+## Get all entries
 ```PowerShell
 $entries = Get-AzTableEntries -table "sampletable"
 ```
 
-## select individual fields from the table
+## Select individual fields from the table
 ```PowerShell
 $entriesWithSomeProperties = Get-AzTableEntries -table "sampletable" -select "RowKey,PartitionKey,name"
 ```
 
-## filter entries
+## Filter entries
 ```PowerShell
 $filteredEntries = Get-AzTableEntries -table "sampletable" -filter "name eq 'Patrick'"
 ```
 
-## delete an entry
+## Delete an entry
 ```PowerShell
 Remove-AzTableEntry -table "sampletable" -partitionKey $rene.PartitionKey -rowKey $rene.RowKey
 ```
 
-## delete a table
+## Delete a table
 ```PowerShell
 Remove-AzTable -table "sampletable"
 ```
