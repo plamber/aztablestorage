@@ -9,8 +9,8 @@ This module has been used in several projects to store and manipulate data in au
 # Examples
 
 **initializing the module**
-$storage = "addYourStorageNameHere"
-$key = "addYourStorageSecretKeyHere"
+$storage = "addYourStorageNameHere"<br />
+$key = "addYourStorageSecretKeyHere"<br /><br />
 
 Import-Module AZTableModule.psm1 -ArgumentList $storage, $key
 
@@ -21,35 +21,35 @@ New-AzTable "sampletable"
 - Dates must be older or equal than "1901-01-01"
 - Replaces the entry if the unique key and partitionkey matches
 
-$birthDate = (Get-date -date "1983-01-02")
-$patrick = @{
-    PartitionKey = 'yourPartitionName'
-    RowKey = 'yourUniqueRowKeyPatrick'
-    "birthDate@odata.type"="Edm.DateTime"
-    birthDate = $birthDate.toString("yyyy-MM-ddT00:00:00.000Z")
-    name = "Patrick"
-    lastname = "Lamber"
-}
+$birthDate = (Get-date -date "1983-01-02")<br />
+$patrick = @{<br />
+    PartitionKey = 'yourPartitionName'<br />
+    RowKey = 'yourUniqueRowKeyPatrick'<br />
+    "birthDate@odata.type"="Edm.DateTime"<br />
+    birthDate = $birthDate.toString("yyyy-MM-ddT00:00:00.000Z")<br />
+    name = "Patrick"<br />
+    lastname = "Lamber"<br />
+}<br />
 Add-AzTableEntry -table "sampletable" -partitionKey $patrick.PartitionKey -rowKey $patrick.RowKey -entity $patrick
 
 **create a new entry or merge it with an existing one**
-$birthDate = (Get-date -date "1986-10-19")
-$rene = @{
-    PartitionKey = 'yourPartitionName'
-    RowKey = 'yourUniqueRowKeyRene'
-    "birthDate@odata.type"="Edm.DateTime"
-    birthDate = $birthDate.toString("yyyy-MM-ddT00:00:00.000Z")
-    name = "Rene'"
-    lastname = "Lamber"
-}
+$birthDate = (Get-date -date "1986-10-19")<br />
+$rene = @{<br />
+    PartitionKey = 'yourPartitionName'<br />
+    RowKey = 'yourUniqueRowKeyRene'<br />
+    "birthDate@odata.type"="Edm.DateTime"<br />
+    birthDate = $birthDate.toString("yyyy-MM-ddT00:00:00.000Z")<br />
+    name = "Rene'"<br />
+    lastname = "Lamber"<br />
+}<br />
 Merge-AzTableEntry -table "sampletable" -partitionKey $rene.PartitionKey -rowKey $rene.RowKey -entity $rene
 
 **return a single entry**
 $patrickFromTheCloud = Get-AzTableEntry -table "sampletable" -partitionKey $patrick.PartitionKey -rowKey $patrick.RowKey
 
 **update an individual field of an existing entry**
-$patrickFromTheCloud = Get-AzTableEntry -table "sampletable" -partitionKey $patrick.PartitionKey -rowKey $patrick.RowKey
-$patrickFromTheCloud.name = "Patrick has been updated"
+$patrickFromTheCloud = Get-AzTableEntry -table "sampletable" -partitionKey $patrick.PartitionKey -rowKey $patrick.RowKey<br />
+$patrickFromTheCloud.name = "Patrick has been updated"<br />
 Merge-AzTableEntry -table "sampletable" -partitionKey $patrickFromTheCloud.PartitionKey -rowKey $patrickFromTheCloud.RowKey -entity $patrickFromTheCloud
 
 **get all entries**
