@@ -8,63 +8,79 @@ This module has been used in several projects to store and manipulate data in au
 
 # Examples
 
-**initializing the module**<br />
-$storage = "addYourStorageNameHere"<br />
-$key = "addYourStorageSecretKeyHere"<br /><br />
+## initializing the module
+```PowerShell
+$storage = "addYourStorageNameHere"
+$key = "addYourStorageSecretKeyHere"
 
-Import-Module AZTableModule.psm1 -ArgumentList $storage, $key<br /><br />
+Import-Module AZTableModule.psm1 -ArgumentList $storage, $key
+```
+## creating a new table**
+```PowerShell
+New-AzTable "sampletable"
+```
+## add a new entry to your table
 
-**creating a new table**<br />
-New-AzTable "sampletable"<br /><br />
-
-**add a new entry to your table**<br />
 - Dates must be older or equal than "1901-01-01"
 - Replaces the entry if the unique key and partitionkey matches
-
-$birthDate = (Get-date -date "1983-01-02")<br />
-$patrick = @{<br />
-    PartitionKey = 'yourPartitionName'<br />
-    RowKey = 'yourUniqueRowKeyPatrick'<br />
-    "birthDate@odata.type"="Edm.DateTime"<br />
-    birthDate = $birthDate.toString("yyyy-MM-ddT00:00:00.000Z")<br />
-    name = "Patrick"<br />
-    lastname = "Lamber"<br />
-}<br />
-Add-AzTableEntry -table "sampletable" -partitionKey $patrick.PartitionKey -rowKey $patrick.RowKey -entity $patrick<br /><br />
-
-**create a new entry or merge it with an existing one**<br />
-$birthDate = (Get-date -date "1986-10-19")<br />
+```PowerShell
+$birthDate = (Get-date -date "1983-01-02")
+$patrick = @{
+    PartitionKey = 'yourPartitionName'
+    RowKey = 'yourUniqueRowKeyPatrick'
+    "birthDate@odata.type"="Edm.DateTime"
+    birthDate = $birthDate.toString("yyyy-MM-ddT00:00:00.000Z")
+    name = "Patrick"
+    lastname = "Lamber"
+}
+Add-AzTableEntry -table "sampletable" -partitionKey $patrick.PartitionKey -rowKey $patrick.RowKey -entity $patrick
+```
+## create a new entry or merge it with an existing one
+```PowerShell
+$birthDate = (Get-date -date "1986-10-19")
 $rene = @{<br />
-    PartitionKey = 'yourPartitionName'<br />
-    RowKey = 'yourUniqueRowKeyRene'<br />
-    "birthDate@odata.type"="Edm.DateTime"<br />
-    birthDate = $birthDate.toString("yyyy-MM-ddT00:00:00.000Z")<br />
-    name = "Rene'"<br />
-    lastname = "Lamber"<br />
-}<br />
-Merge-AzTableEntry -table "sampletable" -partitionKey $rene.PartitionKey -rowKey $rene.RowKey -entity $rene<br /><br />
+    PartitionKey = 'yourPartitionName'
+    RowKey = 'yourUniqueRowKeyRene'
+    "birthDate@odata.type"="Edm.DateTime"
+    birthDate = $birthDate.toString("yyyy-MM-ddT00:00:00.000Z")
+    name = "Rene'"
+    lastname = "Lamber
+}
+Merge-AzTableEntry -table "sampletable" -partitionKey $rene.PartitionKey -rowKey $rene.RowKey -entity $rene
+```
+## return a single entry
+```PowerShell
+$patrickFromTheCloud = Get-AzTableEntry -table "sampletable" -partitionKey $patrick.PartitionKey -rowKey $patrick.RowKey
+```
+## update an individual field of an existing entry
+```PowerShell
+$patrickFromTheCloud = Get-AzTableEntry -table "sampletable" -partitionKey $patrick.PartitionKey -rowKey $patrick.RowKey
+$patrickFromTheCloud.name = "Patrick has been updated"
+Merge-AzTableEntry -table "sampletable" -partitionKey $patrickFromTheCloud.PartitionKey -rowKey $patrickFromTheCloud.RowKey -entity $patrickFromTheCloud
+```
+## get all entries
+```PowerShell
+$entries = Get-AzTableEntries -table "sampletable"
+```
 
-**return a single entry**<br />
-$patrickFromTheCloud = Get-AzTableEntry -table "sampletable" -partitionKey $patrick.PartitionKey -rowKey $patrick.RowKey<br /><br />
+## select individual fields from the table
+```PowerShell
+$entriesWithSomeProperties = Get-AzTableEntries -table "sampletable" -select "RowKey,PartitionKey,name"
+```
 
-**update an individual field of an existing entry**<br />
-$patrickFromTheCloud = Get-AzTableEntry -table "sampletable" -partitionKey $patrick.PartitionKey -rowKey $patrick.RowKey<br />
-$patrickFromTheCloud.name = "Patrick has been updated"<br />
-Merge-AzTableEntry -table "sampletable" -partitionKey $patrickFromTheCloud.PartitionKey -rowKey $patrickFromTheCloud.RowKey -entity $patrickFromTheCloud<br /><br />
+## filter entries
+```PowerShell
+$filteredEntries = Get-AzTableEntries -table "sampletable" -filter "name eq 'Patrick'"
+```
 
-**get all entries**<br />
-$entries = Get-AzTableEntries -table "sampletable"<br /><br />
+## delete an entry
+```PowerShell
+Remove-AzTableEntry -table "sampletable" -partitionKey $rene.PartitionKey -rowKey $rene.RowKey
+```
 
-**select individual fields from the table**<br />
-$entriesWithSomeProperties = Get-AzTableEntries -table "sampletable" -select "RowKey,PartitionKey,name"<br /><br />
-
-**filter entries**<br />
-$filteredEntries = Get-AzTableEntries -table "sampletable" -filter "name eq 'Patrick'"<br /><br />
-
-**delete an entry**<br />
-Remove-AzTableEntry -table "sampletable" -partitionKey $rene.PartitionKey -rowKey $rene.RowKey<br /><br />
-
-**delete a table**<br />
-Remove-AzTable -table "sampletable"<br /><br />
+## delete a table
+```PowerShell
+Remove-AzTable -table "sampletable"
+```
 
 
