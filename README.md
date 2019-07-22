@@ -8,16 +8,16 @@ This module has been used in several projects to store and manipulate data in au
 
 # Examples
 
-**initializing the module**
+**initializing the module**<br />
 $storage = "addYourStorageNameHere"<br />
 $key = "addYourStorageSecretKeyHere"<br /><br />
 
-Import-Module AZTableModule.psm1 -ArgumentList $storage, $key
+Import-Module AZTableModule.psm1 -ArgumentList $storage, $key<br /><br />
 
-**creating a new table**
-New-AzTable "sampletable"
+**creating a new table**<br />
+New-AzTable "sampletable"<br /><br />
 
-**add a new entry to your table**
+**add a new entry to your table**<br />
 - Dates must be older or equal than "1901-01-01"
 - Replaces the entry if the unique key and partitionkey matches
 
@@ -30,9 +30,9 @@ $patrick = @{<br />
     name = "Patrick"<br />
     lastname = "Lamber"<br />
 }<br />
-Add-AzTableEntry -table "sampletable" -partitionKey $patrick.PartitionKey -rowKey $patrick.RowKey -entity $patrick
+Add-AzTableEntry -table "sampletable" -partitionKey $patrick.PartitionKey -rowKey $patrick.RowKey -entity $patrick<br /><br />
 
-**create a new entry or merge it with an existing one**
+**create a new entry or merge it with an existing one**<br />
 $birthDate = (Get-date -date "1986-10-19")<br />
 $rene = @{<br />
     PartitionKey = 'yourPartitionName'<br />
@@ -42,29 +42,29 @@ $rene = @{<br />
     name = "Rene'"<br />
     lastname = "Lamber"<br />
 }<br />
-Merge-AzTableEntry -table "sampletable" -partitionKey $rene.PartitionKey -rowKey $rene.RowKey -entity $rene
+Merge-AzTableEntry -table "sampletable" -partitionKey $rene.PartitionKey -rowKey $rene.RowKey -entity $rene<br /><br />
 
-**return a single entry**
-$patrickFromTheCloud = Get-AzTableEntry -table "sampletable" -partitionKey $patrick.PartitionKey -rowKey $patrick.RowKey
+**return a single entry**<br />
+$patrickFromTheCloud = Get-AzTableEntry -table "sampletable" -partitionKey $patrick.PartitionKey -rowKey $patrick.RowKey<br /><br />
 
-**update an individual field of an existing entry**
+**update an individual field of an existing entry**<br />
 $patrickFromTheCloud = Get-AzTableEntry -table "sampletable" -partitionKey $patrick.PartitionKey -rowKey $patrick.RowKey<br />
 $patrickFromTheCloud.name = "Patrick has been updated"<br />
-Merge-AzTableEntry -table "sampletable" -partitionKey $patrickFromTheCloud.PartitionKey -rowKey $patrickFromTheCloud.RowKey -entity $patrickFromTheCloud
+Merge-AzTableEntry -table "sampletable" -partitionKey $patrickFromTheCloud.PartitionKey -rowKey $patrickFromTheCloud.RowKey -entity $patrickFromTheCloud<br /><br />
 
-**get all entries**
-$entries = Get-AzTableEntries -table "sampletable"
+**get all entries**<br />
+$entries = Get-AzTableEntries -table "sampletable"<br /><br />
 
-**select individual fields from the table**
-$entriesWithSomeProperties = Get-AzTableEntries -table "sampletable" -select "RowKey,PartitionKey,name"
+**select individual fields from the table**<br />
+$entriesWithSomeProperties = Get-AzTableEntries -table "sampletable" -select "RowKey,PartitionKey,name"<br /><br />
 
-**filter entries**
-$filteredEntries = Get-AzTableEntries -table "sampletable" -filter "name eq 'Patrick'"
+**filter entries**<br />
+$filteredEntries = Get-AzTableEntries -table "sampletable" -filter "name eq 'Patrick'"<br /><br />
 
-**delete an entry**
-Remove-AzTableEntry -table "sampletable" -partitionKey $rene.PartitionKey -rowKey $rene.RowKey
+**delete an entry**<br />
+Remove-AzTableEntry -table "sampletable" -partitionKey $rene.PartitionKey -rowKey $rene.RowKey<br /><br />
 
-**delete a table**
-Remove-AzTable -table "sampletable"
+**delete a table**<br />
+Remove-AzTable -table "sampletable"<br /><br />
 
 
