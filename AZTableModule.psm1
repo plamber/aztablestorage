@@ -173,10 +173,3 @@ function Remove-AzTable {
     return Invoke-RestMethod -Method DELETE -Uri ("https://$storageAccount.table.core.windows.net/$resource") -Headers $headers -Body ($body | convertto-json)
 }
 export-modulemember -function Remove-AzTable
-adidas AG, Adi-Dassler-Strasse 1, 91074 Herzogenaurach, Germany 
-Amtsgericht Fürth, HRB 3868
-Chairman of Supervisory Board: Igor Landau 
-Chief Executive Officer: Kasper Rorsted
-Further Executive Board Members: Roland Auschel, Eric Liedtke, Harm Ohlmeyer, Karen Parkin, Martin Shankland
-
-This e-mail or any attachments may contain confidential or privileged information. Unless you are the intended recipient, you may not disclose, copy or use any information herein. If you have received this e-mail message in error, please notify the sender immediately by reply and delete the e-mail from your system.
